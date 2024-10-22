@@ -1,0 +1,4 @@
+<div th:fragment="menu" th:with="url=${requestURI}" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <h5 sec:authorize="isAuthenticated()" class="page-link mb-3" th:text="${#authentication.getPrincipal().getUsername().toUpperCase()}"></h5>
+    <a href="/logout" sec:authorize="isAuthenticated()" class="page-link" th:text="#{site.logout}"></a>
+</div>

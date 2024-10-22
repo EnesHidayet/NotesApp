@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{site.title}"></title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body class="container-fluid mt-4">
+<main class="row">
+    <aside class="col-1">
+        <div th:replace="~{fragment/menu.html :: menu}"></div>
+    </aside>
+    <section class="col-1"></section>
+    <section class="col-9">
+        <div class="card shadow pb-1 mb-4">
+            <form class="card-body pb-0" th:action="@{/note/save}" th:object="${note}" method="post">
+                <h5 th:text="#{note.add}"></h5>
+                <div class="form-floating mt-3">
+                    <textarea class="form-control" th:field="*{text}" id="noteText" placeholder="#{note.textPlaceholder}" required></textarea>
+                    <label for="noteText" th:text="#{note.text}"></label>
+                </div>
+                <div class="row gy-0 gx-2 mt-3">
+                    <div class="col-auto">
+                        <input type="submit" th:value="#{note.save}" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div th:each="note : ${notes}">
+            <div class="card shadow pb-1 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${note.text}"></h5>
+                    <div sec:authorize="isAuthenticated()">
+                        <form action="/note/delete" method="post">
+                            <input type="hidden" name="id" th:value="${note.id}">
+                            <input type="submit" th:value="#{note.delete}" class="btn btn-danger">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="col-1"></section>
+</main>
+<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
